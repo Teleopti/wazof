@@ -1,9 +1,10 @@
 ﻿<!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" ng-app="wazof">
 <head>
     <meta charset="utf-8" />
     <title>wazof</title>
+    <script src="javascripts/angular.min.js"></script>
     <style type="text/css">
         @media print {
             #non-printable {
@@ -20,7 +21,7 @@
         }
     </style>
 </head>
-<body>
+<body ng-view ng-controller="main">
     <div id="non-printable">
         <form>
             <input type="text" name="employeeNumber" placeholder="My employee number" />
@@ -38,35 +39,40 @@
     </div>
 
     <script type="text/javascript">
-        var generateVacation = function (e) {
-            var number = document.querySelector('input[name="employeeNumber"]').value;
-            var name = document.querySelector('input[name="employeeName"]').value;
-            var month = document.querySelector('input[name="month"]').value;
-            var year = document.querySelector('input[name="year"]').value;
+        var wazof = angular.module('wazof', []);
+        wazof.controller('main', [function () {
+            var generateVacation = function (e) {
+                var number = document.querySelector('input[name="employeeNumber"]').value;
+                var name = document.querySelector('input[name="employeeName"]').value;
+                var month = document.querySelector('input[name="month"]').value;
+                var year = document.querySelector('input[name="year"]').value;
 
-            var docToPrint = document.createDocumentFragment();
-            var content = document.createElement('div');
-            
-            var generated = '<table><th><tr><td>Name</td><td>Employee number</div></tr></th>'+
-            '<tbody><tr><td>' + name + '</td><td>' + number + '</td></tr></tbody></table>';
+                var docToPrint = document.createDocumentFragment();
+                var content = document.createElement('div');
 
-            generated += '<table><th><tr><td>Month</td><td>Year</div></tr></th>' +
-            '<tbody><tr><td>' + month + '</td><td>' + year + '</td></tr></tbody></table>';
+                var generated = '<table><th><tr><td>Name</td><td>Employee number</div></tr></th>' +
+                '<tbody><tr><td>' + name + '</td><td>' + number + '</td></tr></tbody></table>';
 
-            content.innerHTML = generated;
+                generated += '<table><th><tr><td>Month</td><td>Year</div></tr></th>' +
+                '<tbody><tr><td>' + month + '</td><td>' + year + '</td></tr></tbody></table>';
 
-            docToPrint.appendChild(content);            
+                content.innerHTML = generated;
 
-            document.querySelector('#printable').appendChild(docToPrint);
-            document.querySelector('.print-report').classList.remove('hidden');
-        };
+                docToPrint.appendChild(content);
 
-        var printVacation = function (e) {
-            window.print();
-        }
+                document.querySelector('#printable').appendChild(docToPrint);
+                document.querySelector('.print-report').classList.remove('hidden');
+            };
 
-        document.querySelector('.generate-report').addEventListener('click', generateVacation);
-        document.querySelector('.print-report').addEventListener('click', printVacation);
+            var printVacation = function (e) {
+                window.print();
+            }
+
+            document.querySelector('.generate-report').addEventListener('click', generateVacation);
+            document.querySelector('.print-report').addEventListener('click', printVacation);
+
+        }]);
+        
 
 
     </script>
