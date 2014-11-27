@@ -4,16 +4,46 @@
 <head>
     <meta charset="utf-8" />
     <title>wazof</title>
+    <style type="text/css">
+       
+        @media print {
+            #non-printable {
+                display: none;
+            }
+
+            #printable {
+                display: block;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div>
+    <div id="non-printable">
         <form>
             <input type="text" name="employeeNumber" placeholder="My employee number" />
             <input type="text" name="employeeFirstname" placeholder="My firstname" />
             <input type="text" name="employeeLastname" placeholder="My lastname" />
-            
+
         </form>
-        <button>Generate my vacation report</button>
+        <button class="generate-report">Generate my vacation report</button>
     </div>
+
+    <div id="printable">
+        
+    </div>
+
+    <script type="text/javascript">
+        var generateVacation = function (e) {
+            var docToPrint = document.createDocumentFragment();
+            var content = document.createElement('div');
+            content.innerHTML = 'generated content';
+            docToPrint.appendChild(content);
+           
+            document.querySelector('#printable').appendChild(docToPrint);
+        }
+
+        document.querySelector('.generate-report').addEventListener('click', generateVacation);
+
+    </script>
 </body>
 </html>
