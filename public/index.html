@@ -24,44 +24,48 @@
 <body ng-view ng-controller="main">
     <div id="non-printable">
         <form>
-            <input type="text" name="employeeNumber" placeholder="My employee number" />
-            <input type="text" name="employeeName" placeholder="My name" />
-            <input type="month" name="month" placeholder="Month" />
-            <input type="year" name="year" placeholder="Year" />
+            <input type="text" ng-model="employee.number" placeholder="My employee number" />
+            <input type="text" ng-model="employee.name" placeholder="My name" />
+            <input type="month" ng-model="employee.month" placeholder="Month" />
+            <input type="year" ng-model="employee.year" placeholder="Year" />
 
         </form>
         <button class="generate-report" ng-click="generateVacation()">Generate my vacation report</button>
         <button class="print-report hidden" ng-click="printVacation()">Print my vacation report</button>
     </div>
 
-    <div id="printable">
-
+    <div id="printable" class="hidden">
+        <table>
+            <thead><tr><td>Name</td><td>Employee number </td></tr></th>
+            <tbody><tr><td ng-bind="employee.name"></td><td ng-bind="employee.number"></td></tr></tbody>
+        </table>
+        <table>
+            <thead><tr><td>Month</td><td>Year</td></tr></th>
+            <tbody><tr><td ng-bind="employee.month"></td><td ng-bind="employee.year"></td></tr></tbody>
+        </table>
     </div>
 
     <script type="text/javascript">
         var wazof = angular.module('wazof', []);
         wazof.controller('main', ['$scope', function ($scope) {
-
+            $scope.employee = {};
+            $scope.vacation = {};
             $scope.generateVacation = function (e) {
-                var number = document.querySelector('input[name="employeeNumber"]').value;
-                var name = document.querySelector('input[name="employeeName"]').value;
-                var month = document.querySelector('input[name="month"]').value;
-                var year = document.querySelector('input[name="year"]').value;
 
                 var docToPrint = document.createDocumentFragment();
                 var content = document.createElement('div');
 
                 var generated = '<table><th><tr><td>Name</td><td>Employee number</div></tr></th>' +
-                '<tbody><tr><td>' + name + '</td><td>' + number + '</td></tr></tbody></table>';
+                '<tbody><tr><td>' + $scope.employee.name + '</td><td>' + $scope.employee.number + '</td></tr></tbody></table>';
 
                 generated += '<table><th><tr><td>Month</td><td>Year</div></tr></th>' +
-                '<tbody><tr><td>' + month + '</td><td>' + year + '</td></tr></tbody></table>';
+                '<tbody><tr><td>' + $scope.employee.month + '</td><td>' + $scope.employee.year + '</td></tr></tbody></table>';
 
                 content.innerHTML = generated;
 
                 docToPrint.appendChild(content);
 
-                document.querySelector('#printable').appendChild(docToPrint);
+                document.querySelector('#printable').classList.remove('hidden');
                 document.querySelector('.print-report').classList.remove('hidden');
             };
 
@@ -69,7 +73,7 @@
                 window.print();
             }
         }]);
-        
+
 
 
     </script>
