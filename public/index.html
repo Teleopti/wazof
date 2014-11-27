@@ -43,57 +43,46 @@
     </div>
 
     <div id="printable" class="hidden">
-        <table>
+        <table class="table">
             <thead><tr><td>Name</td><td>Employee number </td></tr></th>
             <tbody><tr><td ng-bind="employee.name"></td><td ng-bind="employee.number"></td></tr></tbody>
         </table>
-        <table>
+        <table class="table">
             <thead><tr><td>Month</td><td>Year</td></tr></th>
             <tbody><tr><td ng-bind="employee.month"></td><td ng-bind="employee.year"></td></tr></tbody>
+        </table>
+
+        <table class="table">
+            <tr><td>day</td><td>code</td><td>Time</td></tr>
+
+            <tr ng-repeat="day in vacations"><td ng-bind="day.date"></td><td ng-bind="day.code"></td><td>8</td></tr>
         </table>
     </div>
 
 
-
-
-
   
-        <script type="text/ng-template" id="myModalContent.html">
-            <div class="modal-header">
-                <h3 class="modal-title">Details</h3>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div ng-repeat="code in codes">
-                        <input type="radio" ng-value="code" ng-model="$parent.selectedCode" /> {{code}}
-                    </div>
-                </form>
-                <ul>
-                    <li ng-repeat="item in items">
-                        <a ng-click="selected.item = item">{{ item }}</a>
-                    </li>
-                </ul>
-                Selected: <b>{{ selected.item }}</b>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-primary" ng-click="ok()">OK</button>
-                <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
-            </div>
-        </script>
-
-        <button class="btn btn-default" ng-click="open()">Open me!</button>
-        <button class="btn btn-default" ng-click="open('lg')">Large modal</button>
-        <button class="btn btn-default" ng-click="open('sm')">Small modal</button>
-        <div ng-show="selected">Selection from a modal: {{ selected }}</div>
- 
-
-
+    <script type="text/ng-template" id="myModalContent.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Details</h3>
+        </div>
+        <div class="modal-body">
+            <form class="form">
+                <div ng-repeat="code in codes">
+                    <input type="radio" ng-value="code" ng-model="$parent.selectedCode" /> {{code}}
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="ok()">OK</button>
+            <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+        </div>
+    </script>
 
     <script type="text/javascript">
         var wazof = angular.module('wazof', ['ui.bootstrap']);
         wazof.controller('main', ['$scope', '$modal', function ($scope, $modal) {
             $scope.employee = {};
-            $scope.vacation = {};
+            $scope.vacations = [];
             $scope.generateVacation = function (e) {
                 document.querySelector('#printable').classList.remove('hidden');
                 document.querySelector('.print-report').classList.remove('hidden');
@@ -104,21 +93,19 @@
             };
 
             $scope.selectDetails = function (e) {
-                $scope.currentDay = e.target.innerHTML;
+                $scope.currentDay = {};
+                $scope.currentDay.date = e.target.innerHTML;
                 var modalInstance = $modal.open({
                     templateUrl: 'myModalContent.html',
                     controller: 'ModalInstanceCtrl',
-                    size: 'sm',
-                    resolve: {
-                        items: function () {
-                            return $scope.items;
-                        }
-                    }
+                    size: 'sm'
                 });
-
+                
                 modalInstance.result.then(function (code) {
-                    $scope.selectedCode = code;
+                    $scope.currentDay.code = code;
                     console.log(code);
+                    $scope.vacations.push($scope.currentDay);
+                    $scope.currentDay = {};
                 }, function () {
                     // after
                 });
