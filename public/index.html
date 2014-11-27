@@ -5,6 +5,9 @@
     <meta charset="utf-8" />
     <title>wazof</title>
     <script src="javascripts/angular.min.js"></script>
+    <script src="javascripts/ui-bootstrap-tpls-0.12.0.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
     <style type="text/css">
         @media print {
             #non-printable {
@@ -26,9 +29,14 @@
         <form>
             <input type="text" ng-model="employee.number" placeholder="My employee number" />
             <input type="text" ng-model="employee.name" placeholder="My name" />
-            <input type="month" ng-model="employee.month" placeholder="Month" />
-            <input type="year" ng-model="employee.year" placeholder="Year" />
+            <input type="text" ng-model="employee.month" placeholder="Month" />
+            <input type="text" ng-model="employee.year" placeholder="Year" />
 
+
+            <div>
+                <h3>Click on your vacation days : </h3>
+                <table ng-click="selectDetails($event)"><tr><td>1</td><td>2</td><td>3</td></tr></table>
+            </div>
         </form>
         <button class="generate-report" ng-click="generateVacation()">Generate my vacation report</button>
         <button class="print-report hidden" ng-click="printVacation()">Print my vacation report</button>
@@ -45,34 +53,89 @@
         </table>
     </div>
 
+
+
+
+
+  
+        <script type="text/ng-template" id="myModalContent.html">
+            <div class="modal-header">
+                <h3 class="modal-title">Details</h3>
+            </div>
+            <div class="modal-body">
+                <div ng-repeat="code in codes">
+                    <input type="radio" ng-value="code" ng-model="selectedCode"/>
+                </div>
+                <ul>
+                    <li ng-repeat="item in items">
+                        <a ng-click="selected.item = item">{{ item }}</a>
+                    </li>
+                </ul>
+                Selected: <b>{{ selected.item }}</b>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" ng-click="ok()">OK</button>
+                <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+            </div>
+        </script>
+
+        <button class="btn btn-default" ng-click="open()">Open me!</button>
+        <button class="btn btn-default" ng-click="open('lg')">Large modal</button>
+        <button class="btn btn-default" ng-click="open('sm')">Small modal</button>
+        <div ng-show="selected">Selection from a modal: {{ selected }}</div>
+ 
+
+
+
     <script type="text/javascript">
-        var wazof = angular.module('wazof', []);
-        wazof.controller('main', ['$scope', function ($scope) {
+        var wazof = angular.module('wazof', ['ui.bootstrap']);
+        wazof.controller('main', ['$scope', '$modal', function ($scope, $modal) {
             $scope.employee = {};
             $scope.vacation = {};
             $scope.generateVacation = function (e) {
-
-                var docToPrint = document.createDocumentFragment();
-                var content = document.createElement('div');
-
-                var generated = '<table><th><tr><td>Name</td><td>Employee number</div></tr></th>' +
-                '<tbody><tr><td>' + $scope.employee.name + '</td><td>' + $scope.employee.number + '</td></tr></tbody></table>';
-
-                generated += '<table><th><tr><td>Month</td><td>Year</div></tr></th>' +
-                '<tbody><tr><td>' + $scope.employee.month + '</td><td>' + $scope.employee.year + '</td></tr></tbody></table>';
-
-                content.innerHTML = generated;
-
-                docToPrint.appendChild(content);
-
                 document.querySelector('#printable').classList.remove('hidden');
                 document.querySelector('.print-report').classList.remove('hidden');
             };
 
             $scope.printVacation = function (e) {
                 window.print();
-            }
+            };
+
+            $scope.selectDetails = function (e) {
+                $scope.currentDay = e.target.innerHTML;
+                var modalInstance = $modal.open({
+                    templateUrl: 'myModalContent.html',
+                    controller: 'ModalInstanceCtrl',
+                    size: 'sm',
+                    resolve: {
+                        items: function () {
+                            return $scope.items;
+                        }
+                    }
+                });
+
+                modalInstance.result.then(function (code) {
+                    $scope.selectedCode = code;
+                    console.log(code);
+                }, function () {
+                    // after
+                });
+            };
         }]);
+
+        wazof.controller('ModalInstanceCtrl', function ($scope, $modalInstance) { //, items
+
+            $scope.codes = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
+            $scope.selectedCode = '1';
+           
+            $scope.ok = function () {
+                $modalInstance.close($scope.selectedCode);//$scope.selected.item
+            };
+
+            $scope.cancel = function () {
+                $modalInstance.dismiss('cancel');
+            };
+        });
 
 
 
