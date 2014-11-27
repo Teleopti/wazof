@@ -15,6 +15,10 @@
                 display: block;
             }
         }
+
+        .hidden{
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -26,6 +30,7 @@
 
         </form>
         <button class="generate-report">Generate my vacation report</button>
+        <button class="print-report hidden">Print my vacation report</button>
     </div>
 
     <div id="printable">
@@ -38,11 +43,18 @@
             var content = document.createElement('div');
             content.innerHTML = 'generated content';
             docToPrint.appendChild(content);
-           
+
             document.querySelector('#printable').appendChild(docToPrint);
+            document.querySelector('.print-report').classList.remove('hidden');
+        };
+
+        var printVacation = function (e) {
+            window.print();
         }
 
         document.querySelector('.generate-report').addEventListener('click', generateVacation);
+        document.querySelector('.print-report').addEventListener('click', printVacation);
+        
 
     </script>
 </body>
