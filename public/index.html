@@ -143,7 +143,11 @@
     <div class="modal-body">
         <form class="form">
             <div ng-repeat="code in codes">
-                <input type="radio" ng-value="code.value" ng-model="$parent.selectedCode"/> {{code.name}}
+                <div class="radio">
+                    <label>
+                        <input type="radio" ng-value="code.value" ng-model="$parent.selectedCode"/> {{code.name}}
+                    </label>
+                </div>
             </div>
         </form>
     </div>
