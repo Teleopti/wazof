@@ -32,15 +32,17 @@ wazof.controller('main', ['$scope', '$modal', function ($scope, $modal) {
 
 wazof.controller('ModalInstanceCtrl', function ($scope, $modalInstance) {
 
-    $scope.codes = [{name:'Sjukavdrag (timmar)', value:1},
-        {name:'Föräldraledig + barnets namn (timmar)', value:2},
-        {name:'Tillfällig föräldrapenning (VAB) (timmar)', value: 3},
-        {name:'Tillfällig föräldrapenning vid födsel ("pappadagar") (timmar)', value:4},
-        {name:'Semester (heldagar)', value:5},
-        {name:'Arbetstidsförkortning (valfria halv- eller heldagar)', value:6},
-        {name:'Tjänstledighet med löneavdrag (timmar)', value:7},
-        {name:'Tjänstledighet utan löneavdrag (permission) (timmar)', value: 8},
-        {name:'Vård av anhörig (timmar)', value:9}];
+    $scope.codes = [
+        {name: 'Sjukavdrag (timmar)', value: 1},
+        {name: 'Föräldraledig + barnets namn (timmar)', value: 2},
+        {name: 'Tillfällig föräldrapenning (VAB) (timmar)', value: 3},
+        {name: 'Tillfällig föräldrapenning vid födsel ("pappadagar") (timmar)', value: 4},
+        {name: 'Semester (heldagar)', value: 5},
+        {name: 'Arbetstidsförkortning (valfria halv- eller heldagar)', value: 6},
+        {name: 'Tjänstledighet med löneavdrag (timmar)', value: 7},
+        {name: 'Tjänstledighet utan löneavdrag (permission) (timmar)', value: 8},
+        {name: 'Vård av anhörig (timmar)', value: 9}
+    ];
     $scope.selectedCode = '1';
 
     $scope.ok = function () {
