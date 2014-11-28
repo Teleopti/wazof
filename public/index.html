@@ -24,37 +24,44 @@
         }
 
         body {
-            background-image: url("images/paysage.jpeg");
-            background-size: contain;
+            background: linear-gradient(rgba(255,255,255,0.2), rgba(255,255,255,0.1)), url("images/paysage.jpeg");
+            background-size: cover;
             background-repeat: no-repeat;
-            min-height: 800px;
+            height: 100vh;
         }
 
     </style>
 </head>
 <body ng-view ng-controller="main" class="container-fluid">
 <div id="non-printable">
-    <div><h2 class="h2">This day? I wazof!</h2></div>
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand">This day? I wazof!</a>
+        </div>
+        </div>
+    </nav>
     <h4> 1. Fill the fields below : </h4>
 
     <form class="form-inline" role="form">
         <div class="form-group">
-                <label class="sr-only" for="number">number</label>
-                <input type="text" class="form-control" id="number" ng-model="employee.number" placeholder="My employee number"/>
-            </div>
+            <label class="sr-only" for="number">number</label>
+            <input type="text" class="form-control" id="number" ng-model="employee.number"
+                   placeholder="My employee number"/>
+        </div>
 
-            <div class="form-group">
-                <label class="sr-only" for="name">name</label>
-                <input type="text" class="form-control" id="name" ng-model="employee.name" placeholder="My name"/>
-            </div>
-            <div class="form-group">
-                <label class="sr-only" for="month">month</label>
-                <input type="text" class="form-control" id="month" ng-model="employee.month" placeholder="Month"/>
-            </div>
-            <div class="form-group">
-                <label class="sr-only" for="year">year</label>
-                <input type="text" class="form-control" id="year" ng-model="employee.year" placeholder="Year"/>
-            </div>
+        <div class="form-group">
+            <label class="sr-only" for="name">name</label>
+            <input type="text" class="form-control" id="name" ng-model="employee.name" placeholder="My name"/>
+        </div>
+        <div class="form-group">
+            <label class="sr-only" for="month">month</label>
+            <input type="text" class="form-control" id="month" ng-model="employee.month" placeholder="Month"/>
+        </div>
+        <div class="form-group">
+            <label class="sr-only" for="year">year</label>
+            <input type="text" class="form-control" id="year" ng-model="employee.year" placeholder="Year"/>
+        </div>
 
         <div>
             <h4>2. Click on your vacation days : </h4>
